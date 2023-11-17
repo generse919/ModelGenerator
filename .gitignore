@@ -1,0 +1,13 @@
+.DS_Store
+*.egg-info/
+
+# キャッシュ系はすべて無視
+**/*cache*
+
+# 作成したモデルも膨大になる可能性があるため無視
+Assets/model_*
+*.obj
+*.ply
+*.glb
+
+*.mtl
