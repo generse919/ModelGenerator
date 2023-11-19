@@ -3,8 +3,23 @@ import os
 from shap_e.diffusion.sample import sample_latents
 from shap_e.util.image_util import load_image
 from shap_e.util.notebooks import decode_latent_mesh
-import os
 import tempfile
+import torch
+import trimesh
+import numpy as np
+from shap_e.mylib.glbToFbx import glb2Fbx
+
+def to_glb(ply_path: str, output_path: str):
+    print("to_glb: " + output_path + "ply: " + ply_path)
+    mesh = trimesh.load(ply_path)
+    rot = trimesh.transformations.rotation_matrix(-np.pi / 2, [1, 0, 0])
+    mesh = mesh.apply_transform(rot)
+    rot = trimesh.transformations.rotation_matrix(np.pi, [0, 1, 0])
+    mesh = mesh.apply_transform(rot)
+    # mesh_path = tempfile.NamedTemporaryFile(suffix=".glb", delete=False)
+    mesh.export(output_path, file_type="glb")
+
+
 
 def model_create(xm,model,diffusion,imgPath:str,batch_size = 1, guidance_scale = 3.0, inference_steps = 64):
 
@@ -37,12 +52,19 @@ def model_create(xm,model,diffusion,imgPath:str,batch_size = 1, guidance_scale =
     print(f'write models: {srcdata}')
     for i, latent in enumerate(latents):
         t = decode_latent_mesh(xm, latent).tri_mesh()
-        modelPath = f'{dir}/example_mesh_{i}.ply'
+
+
         ply_path = tempfile.NamedTemporaryFile(suffix=".ply", delete=False, mode="w+b")
-        with open(modelPath, 'wb') as f:
+        glb_path = tempfile.NamedTemporaryFile(suffix=".glb", delete=False, mode="w+b")
+        output_path = f'{dir}/output.fbx'
+        
+        with open(ply_path.name, 'wb') as f:
             t.write_ply(f)
-        with open(f'{dir}/example_mesh_{i}.obj', 'w') as f:
-            t.write_obj(f)
+        to_glb(ply_path.name,glb_path.name)
+        torch.cuda.empty_cache()
+        glb2Fbx(glb_path.name, output_path)
     GPUtil.showUtilization()
-    torch.cuda.empty_cache()
+    
+
+
     del latents
