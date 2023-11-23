@@ -26,7 +26,7 @@ def model_create(xm,model,diffusion,imgPath:str,batch_size = 1, guidance_scale =
 
     # To get the best result, you should remove the background and show only the object of interest to the model.
     image = load_image(imgPath)
-    srcdata = imgPath.replace('Assets/example_data/', '').removesuffix('.png').removesuffix('.jpg')
+    srcdata = imgPath.replace('Assets/example_data/', '').removesuffix('.png').removesuffix('.jpg').removesuffix('.jpeg')
     print(f'loaded: {srcdata}')
     dir = 'Assets/model_' + srcdata
     if not os.path.exists(dir):
