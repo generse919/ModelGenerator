@@ -65,10 +65,11 @@ def model_create(xm,model,diffusion,imgPath:str,batch_size = 1, guidance_scale =
         torch.cuda.empty_cache()
 
         print(f"glb_path = {glb_path.name}, output_path = {output_path}",)
+        mylib_path = os.getcwd() + "/shap_e/mylib"
 
         # command = f"blender --background --python /root/repos/ModelGenerator/shap_e/mylib/glbToFbx.py -- --glb_path " + glb_path.name +" --out_fbx_path " +output_path 
         #コマンドラインからBlenderPythonを起動し、変換処理をかける
-        subprocess.run(f"blender --background --python /root/repos/ModelGenerator/shap_e/mylib/glbToFbx.py -- --glb_path {glb_path.name} --out_fbx_path {output_path}", shell=True)
+        subprocess.run(f"blender --background --python {mylib_path}/glbToFbx.py -- --glb_path {glb_path.name} --out_fbx_path {output_path}", shell=True)
 
         # glb2Fbx(glb_path.name, output_path)
     GPUtil.showUtilization()

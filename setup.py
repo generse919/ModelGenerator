@@ -35,7 +35,8 @@ setup(
         "chardet",
         "pyyaml",
         "GPUtil",
-        "trimesh"
+        "trimesh",
+        "ipywidgets"
     ],
     author="Yamamoto.S",
 )
