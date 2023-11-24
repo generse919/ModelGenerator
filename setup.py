@@ -36,7 +36,8 @@ setup(
         "pyyaml",
         "GPUtil",
         "trimesh",
-        "ipywidgets"
+        "ipywidgets",
+        "ipykernel"
     ],
     author="Yamamoto.S",
 )
