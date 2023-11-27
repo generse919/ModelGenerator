@@ -18,6 +18,7 @@ def server(ip, port, ext):
                     while True:
                         data = conn.recv(1024)
                         if not data:
+                            print("break")
                             break
                         f.write(data)
                         conn.sendall(b'Received done')
