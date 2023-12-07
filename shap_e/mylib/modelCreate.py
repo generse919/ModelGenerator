@@ -25,13 +25,15 @@ def model_create(xm,model,diffusion,imgPath:str,batch_size = 1, guidance_scale =
 
 
     # To get the best result, you should remove the background and show only the object of interest to the model.
+    
     image = load_image(imgPath)
-    srcdata = imgPath.replace('Assets/example_data/', '').removesuffix('.png').removesuffix('.jpg').removesuffix('.jpeg')
-    print(f'loaded: {srcdata}')
-    dir = 'Assets/model_' + srcdata
+    basename = os.path.basename(imgPath)
+    srcname, extension = os.path.splitext(basename)  # Extract extension from filename
+    print(f'loaded: {srcname}')
+    dir = 'Assets/model_' + srcname
     if not os.path.exists(dir):
         os.mkdir(dir)
-    print(f'makeModel: {srcdata}')
+    print(f'makeModel: {srcname}')
     latents = sample_latents(
         batch_size=batch_size,
         model=model,
@@ -49,7 +51,7 @@ def model_create(xm,model,diffusion,imgPath:str,batch_size = 1, guidance_scale =
     )
     
     GPUtil.showUtilization()
-    print(f'write models: {srcdata}')
+    print(f'write models: {srcname}')
     for i, latent in enumerate(latents):
         t = decode_latent_mesh(xm, latent).tri_mesh()
 

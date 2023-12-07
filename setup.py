@@ -38,6 +38,7 @@ setup(
         "trimesh",
         "ipywidgets",
         "ipykernel"
+        "websockets",
     ],
     author="Yamamoto.S",
 )
