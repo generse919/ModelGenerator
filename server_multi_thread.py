@@ -6,7 +6,7 @@ from shap_e.mylib.modelCreate import model_create
 
 class ModelGenerate:
     def __init__(self, host, port, recv_bytes, xm, model, diffusion):
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.host = host
         self.port = port
         self.xm = xm

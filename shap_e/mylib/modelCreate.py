@@ -21,7 +21,7 @@ def to_glb(ply_path: str, output_path: str):
 
 
 
-def model_create(xm,model,diffusion,imgPath:str,batch_size = 1, guidance_scale = 3.0, inference_steps = 64):
+def model_create(xm,model,diffusion,imgPath:str,batch_size = 1, guidance_scale = 3.0, inference_steps = 64) -> str:
 
 
     # To get the best result, you should remove the background and show only the object of interest to the model.
@@ -57,25 +57,25 @@ def model_create(xm,model,diffusion,imgPath:str,batch_size = 1, guidance_scale =
 
 
         ply_path = tempfile.NamedTemporaryFile(suffix=".ply", delete=False, mode="w+b")
-        glb_path = tempfile.NamedTemporaryFile(suffix=".glb", delete=False, mode="w+b")
-        output_path = f'{dir}/output.fbx'
+        # glb_path = tempfile.NamedTemporaryFile(suffix=".glb", delete=False, mode="w+b")
+        # output_path = f'{dir}/output.fbx'
+        output_path = f'{dir}/output.glb'
         output_path = os.path.abspath(output_path)
         
         with open(ply_path.name, 'wb') as f:
             t.write_ply(f)
-        to_glb(ply_path.name,glb_path.name)
+        to_glb(ply_path.name,output_path)
         torch.cuda.empty_cache()
 
-        print(f"glb_path = {glb_path.name}, output_path = {output_path}",)
-        mylib_path = os.getcwd() + "/shap_e/mylib"
+        # print(f"glb_path = {glb_path.name}, output_path = {output_path}",)
+        # mylib_path = os.getcwd() + "/shap_e/mylib"
 
         # command = f"blender --background --python /root/repos/ModelGenerator/shap_e/mylib/glbToFbx.py -- --glb_path " + glb_path.name +" --out_fbx_path " +output_path 
         #コマンドラインからBlenderPythonを起動し、変換処理をかける
-        subprocess.run(f"blender --background --python {mylib_path}/glbToFbx.py -- --glb_path {glb_path.name} --out_fbx_path {output_path}", shell=True)
+        # subprocess.run(f"blender --background --python {mylib_path}/glbToFbx.py -- --glb_path {glb_path.name} --out_fbx_path {output_path}", shell=True)
 
         # glb2Fbx(glb_path.name, output_path)
     GPUtil.showUtilization()
     
-
-
     del latents
+    return output_path

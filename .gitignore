@@ -11,3 +11,5 @@ Assets/model_*
 *.glb
 
 *.mtl
+
+*.pem

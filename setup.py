@@ -37,7 +37,7 @@ setup(
         "GPUtil",
         "trimesh",
         "ipywidgets",
-        "ipykernel"
+        "ipykernel",
         "websockets",
     ],
     author="Yamamoto.S",
